@@ -5,9 +5,9 @@
         <v-data-table :headers="headers" :items="devices" :items-per-page="10">
           <template v-slot:item="row">
             <tr>
-              <td align="start">{{ row.item.device.connector.type }}</td>
+              <td align="start">{{ row.item.meta.name }}</td>
               <td align="center">{{ row.item.id }}</td>
-              <td align="center">{{ row.item.device.data.region }}</td>
+              <td align="center">{{ row.item.meta.createdAt }}</td>
               <td align="end">
                 <v-btn @click="getId(row.item.id)">Id</v-btn>
               </td>
@@ -34,17 +34,17 @@ export default {
     prevPage: "",
     headers: [
       {
-        text: "Title",
+        text: "Name",
         align: "start",
         sortable: true,
-        value: "device.connector.type",
+        value: "device.meta.name",
       },
       { text: "External Id", align: "center", sortable: true, value: "id" },
       {
-        text: "Region",
+        text: "Created At",
         align: "center",
         sortable: true,
-        value: "device.data.region",
+        value: "device.meta.createdAt",
       },
       { text: "CTA", align: "end", sortable: false, value: "cta" },
     ],
