@@ -2,11 +2,18 @@
   <v-app>
     <v-main>
       <v-container>
-        <v-data-table
-          :headers="headers"
-          :items="devices"
-          :items-per-page="10"
-        ></v-data-table>
+        <v-data-table :headers="headers" :items="devices" :items-per-page="10">
+          <template v-slot:item="row">
+            <tr>
+              <td align="start">{{ row.item.device.connector.type }}</td>
+              <td align="center">{{ row.item.id }}</td>
+              <td align="center">{{ row.item.device.data.region }}</td>
+              <td align="end">
+                <v-btn @click="getId(row.item.id)">Id</v-btn>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
         <v-btn v-if="prevPage" @click="fetchData(prevPage)" class="mr-4"
           >Previous</v-btn
         >
@@ -35,10 +42,11 @@ export default {
       { text: "External Id", align: "center", sortable: true, value: "id" },
       {
         text: "Region",
-        align: "end",
+        align: "center",
         sortable: true,
         value: "device.data.region",
       },
+      { text: "CTA", align: "end", sortable: false, value: "cta" },
     ],
   }),
   methods: {
@@ -59,6 +67,9 @@ export default {
           },
         })
         .then((res) => this.storeData(res));
+    },
+    getId(id) {
+      window.alert(id);
     },
   },
   mounted() {
