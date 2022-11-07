@@ -19,6 +19,26 @@
         >
         <v-btn v-if="nextPage" @click="fetchData(nextPage)">Next</v-btn>
       </v-container>
+      <v-container>
+        <v-btn @click="fetchSortedData('id', '-')" class="mr-4"
+          >Sort Id Desc</v-btn
+        >
+        <v-btn @click="fetchSortedData('id', '%2b')">Sort Id Asc</v-btn>
+      </v-container>
+      <v-container>
+        <v-btn @click="fetchSortedData('name', '-')" class="mr-4"
+          >Sort Name Desc</v-btn
+        >
+        <v-btn @click="fetchSortedData('name', '%2b')">Sort Name Asc</v-btn>
+      </v-container>
+      <v-container>
+        <v-btn @click="fetchSortedData('createdAt', '-')" class="mr-4"
+          >Sort created Desc</v-btn
+        >
+        <v-btn @click="fetchSortedData('createdAt', '%2b')"
+          >Sort created Asc</v-btn
+        >
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -66,6 +86,22 @@ export default {
             "Access-Control-Allow-Origin": "*",
           },
         })
+        .then((res) => this.storeData(res));
+    },
+    fetchSortedData(sortingParam, direction) {
+      axios
+        .get(
+          "https://xapi.stage.niota.io/xapi/v1/virtual-devices/?sort=" +
+            direction +
+            sortingParam,
+          {
+            headers: {
+              "x-api-key": "2C2A4B8C-1E11-4C1F-996B-25DD99ED0CC6",
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        )
         .then((res) => this.storeData(res));
     },
     getId(id) {
